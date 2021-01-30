@@ -59,6 +59,7 @@ func calc(bazi *TBazi, nSex int) {
 }
 
 // 从新历获取八字(年, 月, 日, 时, 分, 秒, 性别男1,女0)
+// Get the eight characters from the new calendar (year, month, day, hour, minute, second, gender male 1, female 0)
 func GetBazi(nYear, nMonth, nDay, nHour, nMinute, nSecond, nSex int) TBazi {
 	var bazi TBazi
 
@@ -86,6 +87,7 @@ func GetBazi(nYear, nMonth, nDay, nHour, nMinute, nSecond, nSex int) TBazi {
 }
 
 // 从农历获取八字
+// Get the eight characters from the lunar calendar
 func GetBaziFromLunar(nYear, nMonth, nDay, nHour, nMinute, nSecond, nSex int, isLeap bool) TBazi {
 	nYear, nMonth = ChangeLunarLeap(nYear, nMonth, isLeap)
 
@@ -128,22 +130,26 @@ func (bazi *TBazi) Print() {
 }
 
 // 按照特殊格式化输出(未完成)
+// Output according to special format (unfinished)
 func PrintBazi(bazi *TBazi) {
 	log.Println("======================================================================")
-	log.Println("出生日期新历： ", bazi.SolarDate.Year, "年",
-		bazi.SolarDate.Month, "月",
-		bazi.SolarDate.Day, "日  ",
+	// New Calendar of Birth Date
+	log.Println("出生日期新历 (New Calendar of Birth Date)： ", bazi.SolarDate.Year, "年(year)",
+		bazi.SolarDate.Month, "月(month)",
+		bazi.SolarDate.Day, "日(day)  ",
 		bazi.SolarDate.Hour, ":",
 		bazi.SolarDate.Minute, ":",
 		bazi.SolarDate.Second,
 	)
-	log.Println("基本八字：",
+	// Basic horoscope:
+	log.Println("基本八字 (Basic horoscope)：",
 		bazi.SiZhu.YearZhu.GanZhi.ToString(),
 		bazi.SiZhu.MonthZhu.GanZhi.ToString(),
 		bazi.SiZhu.DayZhu.GanZhi.ToString(),
 		bazi.SiZhu.HourZhu.GanZhi.ToString())
 
-	log.Println("命盘解析：")
+	//	ife chart analysis:
+	log.Println("命盘解析 (Life chart analysis:)：")
 	log.Println(
 		bazi.SiZhu.YearZhu.Gan.ToString(), "(",
 		bazi.SiZhu.YearZhu.Gan.WuXing.ToString(), ")[",
@@ -152,7 +158,7 @@ func PrintBazi(bazi *TBazi) {
 		bazi.SiZhu.MonthZhu.Gan.WuXing.ToString(), ")[",
 		bazi.SiZhu.MonthZhu.Gan.ShiShen.ToString(), "]\t",
 		bazi.SiZhu.DayZhu.Gan.ToString(), "(",
-		bazi.SiZhu.DayZhu.Gan.WuXing.ToString(), ")[日主]\t",
+		bazi.SiZhu.DayZhu.Gan.WuXing.ToString(), ")[日主(Sun Lord)]\t",
 		bazi.SiZhu.HourZhu.Gan.ToString(), "(",
 		bazi.SiZhu.HourZhu.Gan.WuXing.ToString(), ")[",
 		bazi.SiZhu.HourZhu.Gan.ShiShen.ToString(), "]")
@@ -188,37 +194,42 @@ func PrintBazi(bazi *TBazi) {
 		bazi.SiZhu.HourZhu.GanZhi.NaYin.ToString(), "\t\t",
 	)
 	// 天干五合
+	// Tianganwuhe
 	log.Println(
-		"天干五合：",
+		"天干五合(Tianganwuhe)：",
 		bazi.HeHuaChong.TgWuHe[0].Str,
 		bazi.HeHuaChong.TgWuHe[1].Str,
 		bazi.HeHuaChong.TgWuHe[2].Str,
 		bazi.HeHuaChong.TgWuHe[3].Str,
 	)
 	// 地支三会
+	// Earthly Branch Three
 	log.Println(
-		"地支三会：",
+		"地支三会(Earthly Branch Three)：",
 		bazi.HeHuaChong.DzSanHui[0].Str,
 		bazi.HeHuaChong.DzSanHui[1].Str,
 	)
 	// 地支三合
+	// Earthly Branch Sanhe
 	log.Println(
-		"地支三合：",
+		"地支三合(Earthly Branch Sanhe)：",
 		bazi.HeHuaChong.DzSanHe[0].Str,
 		bazi.HeHuaChong.DzSanHe[1].Str,
 	)
 
 	// 地支六冲
+	// Earthly Branches and Six Chongs
 	log.Println(
-		"地支六冲：",
+		"地支六冲(Earthly Branches and Six Chongs)：",
 		bazi.HeHuaChong.DzLiuChong[0].Str,
 		bazi.HeHuaChong.DzLiuChong[1].Str,
 		bazi.HeHuaChong.DzLiuChong[2].Str,
 		bazi.HeHuaChong.DzLiuChong[3].Str,
 	)
 	// 地支六害
+	// Six evils
 	log.Println(
-		"地支六害：",
+		"地支六害(Six evils)：",
 		bazi.HeHuaChong.DzLiuHai[0].Str,
 		bazi.HeHuaChong.DzLiuHai[1].Str,
 		bazi.HeHuaChong.DzLiuHai[2].Str,
@@ -226,28 +237,28 @@ func PrintBazi(bazi *TBazi) {
 	)
 
 	log.Println("----------------------------------------------------------------------")
-	log.Println("所属节令：")
-	log.Println(GetJieQiFromNumber(bazi.PreviousJie.JieQi), bazi.PreviousJie.Year, "年",
-		bazi.PreviousJie.Month, "月",
-		bazi.PreviousJie.Day, "日  ",
+	log.Println("所属节令(Season)：")
+	log.Println(GetJieQiFromNumber(bazi.PreviousJie.JieQi), bazi.PreviousJie.Year, "年(year)",
+		bazi.PreviousJie.Month, "月(month)",
+		bazi.PreviousJie.Day, "日(year)  ",
 		bazi.PreviousJie.Hour, ":",
 		bazi.PreviousJie.Minute, ":",
 		bazi.PreviousJie.Second)
-	log.Println(GetJieQiFromNumber(bazi.NextJie.JieQi), bazi.NextJie.Year, "年",
-		bazi.NextJie.Month, "月",
-		bazi.NextJie.Day, "日  ",
+	log.Println(GetJieQiFromNumber(bazi.NextJie.JieQi), bazi.NextJie.Year, "年(year)",
+		bazi.NextJie.Month, "月(month)",
+		bazi.NextJie.Day, "日(day)  ",
 		bazi.NextJie.Hour, ":",
 		bazi.NextJie.Minute, ":",
 		bazi.NextJie.Second)
 
-	var szDaYun = "大运："
+	var szDaYun = "大运(Universiade)："
 	for i := 0; i < 10; i++ {
 		szDaYun = szDaYun + " " + bazi.DaYun.Zhu[i].GanZhi.ToString()
 	}
 	log.Println(szDaYun)
-	log.Println("起运时间", bazi.DaYun.QiYun.Year, "年",
-		bazi.DaYun.QiYun.Month, "月",
-		bazi.DaYun.QiYun.Day, "日  ",
+	log.Println("起运时间(Departure Time)", bazi.DaYun.QiYun.Year, "年(year)",
+		bazi.DaYun.QiYun.Month, "月(month)",
+		bazi.DaYun.QiYun.Day, "日(day)  ",
 		bazi.DaYun.QiYun.Hour, ":",
 		bazi.DaYun.QiYun.Minute, ":",
 		bazi.DaYun.QiYun.Second)
