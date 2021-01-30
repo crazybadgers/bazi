@@ -11,6 +11,7 @@ func init() {
 
 	for i := range JIE_QI_LIST {
 		// 将数据转存成TDate类型
+		// Transfer data into TDate type
 		var date TDate
 		date.Year = JIE_QI_LIST[i][0]
 		date.Month = JIE_QI_LIST[i][1]
@@ -26,25 +27,29 @@ func init() {
 	}
 }
 
-
-// // 获取某个日期的节气, 并且前后两个节气
+// 获取某个日期的节气, 并且前后两个节气
+// Get the solar terms of a certain date, and two solar terms before and after
 func GetZhongQi(date TDate) (TDate, TDate) {
 
 	if (date.Year < 31) || (date.Year > 2300) {
 		return date, date
 	}
 	// 一口气获取3年的所有节气
+	// Get all the solar terms for 3 years in one breath
 	pMap1, _ := m_MapJieQi[date.Year-1]
 	pMap2, _ := m_MapJieQi[date.Year]
 	pMap3, _ := m_MapJieQi[date.Year+1]
 
 	// 上一个日期
+	// Last date
 	var pLastDate TDate
 
 	for i := range pMap1.DateList {
 		// 必须中气
+		// Must be gas
 		if pMap1.DateList[i].JieQi%2 != 0 {
 			// 找到最后的那个节气
+			// Find the last solar term
 			if CompareDate(date, pMap1.DateList[i]) <= 1 {
 				pLastDate = pMap1.DateList[i]
 			} else {
@@ -54,8 +59,10 @@ func GetZhongQi(date TDate) (TDate, TDate) {
 	}
 	for i := range pMap2.DateList {
 		// 必须中气
+		// Must be gas
 		if pMap2.DateList[i].JieQi%2 != 0 {
 			// 找到最后的那个节气
+			// Find the last solar term
 			if CompareDate(date, pMap2.DateList[i]) <= 1 {
 				pLastDate = pMap2.DateList[i]
 			} else {
@@ -65,8 +72,10 @@ func GetZhongQi(date TDate) (TDate, TDate) {
 	}
 	for i := range pMap3.DateList {
 		// 必须中气
+		// Must be gas
 		if pMap3.DateList[i].JieQi%2 != 0 {
 			// 找到最后的那个节气
+			// find the last solar term
 			if CompareDate(date, pMap3.DateList[i]) <= 1 {
 				pLastDate = pMap3.DateList[i]
 			} else {
@@ -75,12 +84,12 @@ func GetZhongQi(date TDate) (TDate, TDate) {
 		}
 	}
 
-
 	// 错误
 	return date, date
 }
 
-// // 获取某个日期的节气, 并且前后两个节气
+// 获取某个日期的节气, 并且前后两个节气
+// Get the solar terms of a certain date, and two solar terms before and after
 func GetJieQi(date TDate) (TDate, TDate) {
 
 	if (date.Year < 31) || (date.Year > 2300) {
